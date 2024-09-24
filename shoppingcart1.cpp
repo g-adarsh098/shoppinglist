@@ -30,27 +30,73 @@ class Product{
 			cout<<"product prize : "<<prize<<endl;
 			cout<<"product stock: "<<stock<<endl;
 		}
-
-};
-int main()
-{
-	Product p[100];
-	
-	int n;
-	cout<<"enter the total number of elements";
-	cin>>n;
-	int id,stock;
-	string name;
-	double prize;
-	int i;
-	for(i=0;i<n;i++){
-		cout<<"enter the product id name prize stock :";
-		cin>>id>>name>>prize>>stock;
-	 p[i] = Product(id,name,prize,stock);
+		int putstock(){
+			cout<<"stock : "<<stock<<endl;
 	}
-	for(i=0;i<n;i++){
-		p[i].putdetails();
-	}
-//int qty;
-//cout<<"enter the quantity";
+    bool matchesName(string productName){    
+    if (pname == productName) {  
+        return true;   
+    } else {  
+	    return false;  
+    }  
 }
+    int getStock(){  
+        return stock;  
+    } 
+};
+int main(){
+	Product p[100];
+int n;  
+    cout << "Enter the total number of products: ";  
+    cin >> n;   
+    for (int i = 0; i < n; i++) {  
+        int id, stock;  
+        string name;  
+        double prize;  
+        cout << "Enter the product id, name, prize, stock: ";  
+        cin >> id >> name >> prize >> stock;   
+        p[i] = Product(id, name, prize, stock);  
+    }   
+    for (int i = 0; i < n; i++) {  
+        p[i].putdetails();  
+    }  
+
+    char opt = 'y';  
+    do {  
+        string proname;  
+        cout << "Enter the product name to purchase: ";  
+        cin >> proname;  
+
+        int qty;  
+        cout << "Enter the quantity: ";  
+        cin >> qty;  
+
+         
+        bool found = false;    
+        for (int i = 0; i < n; i++) {  
+            if (p[i].matchesName(proname)) {  
+                if (p[i].getStock() >= qty) {  
+                    p[i].setstock(p[i].getStock() - qty);  
+                    found = true;  
+                    cout << "Successfully purchased " << qty << " of " << proname << endl;  
+                } else {  
+                    cout << "Not enough stock for " << proname << endl;  
+                }  
+                break;  
+            }  
+        }  
+        if (!found) {  
+            cout << "Product not found!" << endl;  
+        }  
+
+        cout << "Do you wish to continue? (y = yes || n = no): ";  
+        cin >> opt;  
+
+    } while(opt != 'n');  
+
+    for (int i = 0; i < n; i++) {  
+        p[i].putdetails();  
+    }  
+
+    return 0;  
+}  
